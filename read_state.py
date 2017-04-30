@@ -1,25 +1,23 @@
 import ctypes
-import threading
-import time
 
 buttons = {
-    'GAMEPAD_DPAD_UP', 0x0001
-    'GAMEPAD_DPAD_DOWN', 0x0002
-    'GAMEPAD_DPAD_LEFT', 0x0004
-    'GAMEPAD_DPAD_RIGHT', 0x0008
-    'GAMEPAD_START', 0x0010
-    'GAMEPAD_BACK', 0x0020
-    'GAMEPAD_LEFT_THUMB', 0x0040
-    'GAMEPAD_RIGHT_THUMB', 0x0080
-    'GAMEPAD_LEFT_SHOULDER', 0x0100
-    'GAMEPAD_RIGHT_SHOULDER', 0x0200
-    'GAMEPAD_A', 0x1000
-    'GAMEPAD_B', 0x2000
-    'GAMEPAD_X', 0x4000
-    'GAMEPAD_Y', 0x8000
+    'DPAD_UP': 0x0001,
+    'DPAD_DOWN': 0x0002,
+    'DPAD_LEFT': 0x0004,
+    'DPAD_RIGHT': 0x0008,
+    'START': 0x0010,
+    'BACK': 0x0020,
+    'LEFT_THUMB': 0x0040,
+    'RIGHT_THUMB': 0x0080,
+    'LEFT_SHOULDER': 0x0100,
+    'RIGHT_SHOULDER': 0x0200,
+    'A': 0x1000,
+    'B': 0x2000,
+    'X': 0x4000,
+    'Y': 0x8000
 }
 
-xinput = ctypes.windll.xinput1_3
+xinput = ctypes.windll.xinput1_4
 
 
 class xinput_gamepad(ctypes.Structure):
@@ -39,10 +37,21 @@ class xinput_vibration(ctypes.Structure):
                 ("wRightMotorSpeed", ctypes.c_ushort)]
 
 
-def main():
+def get_state(ControllerID):
     state = xinput_state()
-    xinput.XInputGetState(0, ctypes.pointer(state))
-    print(bin(state.XINPUT_GAMEPAD.wButtons))
+    xinput.XInputGetState(ControllerID - 1, ctypes.pointer(state))
+    return state
+
+
+def button_to_dict(state_value):
+    return([name for name, value in buttons.items()
+            if state_value & value == value])
+
+
+def main():
+    con = get_state(1)
+
+    print(button_to_dict(con.XINPUT_GAMEPAD.wButtons))
 
 
 if __name__ == '__main__':

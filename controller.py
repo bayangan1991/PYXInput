@@ -109,6 +109,10 @@ class Controller(object):
 def main():
     import time
     con = Controller()
+    time.sleep(1)
+    con.SetValue('BtnA', 1)
+    time.sleep(10)
+    con.SetValue('BtnA', 0)
     time.sleep(5)
 
 
