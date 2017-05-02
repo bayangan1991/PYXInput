@@ -3,8 +3,10 @@
 Python Implepentation of vXbox from http://vjoystick.sourceforge.net/site/index.php/vxbox"""
 from ctypes import *
 import time
+import os
 
-_xinput = WinDLL('vXboxInterface-x64\\vXboxInterface.dll')
+root = os.path.dirname(__file__)
+_xinput = WinDLL(os.path.join(root, 'vXboxInterface-x64\\vXboxInterface.dll'))
 
 DPAD_OFF = 0
 DPAD_UP = 1
