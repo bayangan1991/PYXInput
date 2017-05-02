@@ -5,12 +5,13 @@ from ctypes import *
 import time
 import os
 
-_root = os.path.dirname(__file__)
-if _root:
-    _path = _root + '\\vXboxInterface-x64\\vXboxInterface.dll'
-else:
-    _path = 'vXboxInterface-x64\\vXboxInterface.dll'
+_path = os.path.join(
+    os.path.dirname(__file__),
+    'vXboxInterface-x64',
+    'vXboxInterface.dll'
+)
 
+print(_path, os.path.isfile(_path))
 _xinput = WinDLL(_path)
 
 DPAD_OFF = 0

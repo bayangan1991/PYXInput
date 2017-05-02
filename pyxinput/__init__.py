@@ -1,13 +1,18 @@
 from ctypes import *
 import os
+import platform
 
-_root = os.path.dirname(__file__)
-if _root:
-    _path = _root + '\\vXboxInterface-x64\\vXboxInterface.dll'
-else:
-    _path = 'vXboxInterface-x64\\vXboxInterface.dll'
+if platform.architecture()[0] == '32bit':
+    print('Windows 32-Bit unsupported')
 
-_xinput = WinDLL(_path)
+_path = os.path.join(
+    os.path.dirname(__file__),
+    'vXboxInterface-x64',
+    'vXboxInterface.dll'
+)
+
+print(_path, os.path.isfile(_path))
+_xinput = windll.LoadLibrary(_path)
 
 
 class MissingDependancyError(Exception):
