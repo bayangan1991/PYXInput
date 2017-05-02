@@ -14,7 +14,7 @@ This project requires the installation of `ScpVBus` if you intend on using the V
 
 
 1. Open `cmd.exe` as administator
-2. `cd` in the [ScpVBus-x64](/ScpVBus-x64)
+2. `cd` in the [ScpVBus-x64](/ScpVBus-x64) directory
 3. Execute [install.bat](/ScpVBus-x64/install.bat)
 
 If successful you will receive the following message
