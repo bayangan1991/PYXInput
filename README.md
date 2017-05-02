@@ -80,7 +80,7 @@ Each use case of this library can be initialsed as an object
 
 ```python
 from PYXInput.virtual_controller import vController
-from PYXInput.read_sate import rController
+from PYXInput.read_state import rController
 
 MyVirtual = vController()
 
