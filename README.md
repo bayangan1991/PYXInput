@@ -27,7 +27,7 @@ Drivers installed successfully.
 
 ### Installing
 
-To install running the following command:
+To install run the following command:
 
 ```
 pip install git+https://github.com/bayangan1991/PYXInput.git
