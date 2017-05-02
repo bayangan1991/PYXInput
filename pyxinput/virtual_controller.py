@@ -6,7 +6,12 @@ import time
 import os
 
 _root = os.path.dirname(__file__)
-_xinput = WinDLL(os.path.join(_root, 'vXboxInterface-x64\\vXboxInterface.dll'))
+if _root:
+    _path = _root + '\\vXboxInterface-x64\\vXboxInterface.dll'
+else:
+    _path = 'vXboxInterface-x64\\vXboxInterface.dll'
+
+_xinput = WinDLL(_path)
 
 DPAD_OFF = 0
 DPAD_UP = 1
