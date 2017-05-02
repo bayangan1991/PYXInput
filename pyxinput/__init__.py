@@ -1,5 +1,8 @@
 from ctypes import *
-xinput = WinDLL('vXboxInterface-x64\\vXboxInterface.dll')
+import os
+
+root = os.path.dirname(__file__)
+_xinput = WinDLL(os.path.join(root, 'vXboxInterface-x64\\vXboxInterface.dll'))
 
 
 class MissingDependancyError(Exception):
