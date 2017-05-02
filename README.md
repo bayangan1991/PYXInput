@@ -1,6 +1,6 @@
 # PYXInput
 
-A Python Library for emulating xbox controllers on Windows as well as reading the state of controllers using standard xinput. This is an adaptation of the the vXbox by vJoy. I have made some changes to `vXboxInterface.dll` that I feel make it easier to work with. The original can be found at [vXboxInterface](http://vjoystick.sourceforge.net/site/index.php/vxbox) but be aware it will not function with the project.
+A Python Library for emulating xbox controllers on Windows as well as reading the state of controllers using standard xinput. This is an adaptation of the the vXbox by vJoy. I have made some changes to [vXboxInterface.dll](https://github.com/bayangan1991/vXboxInterface) that I feel make it easier to work with. The original can be found at [vXboxInterface](http://vjoystick.sourceforge.net/site/index.php/vxbox) but be aware it will not function with the project.
 
 ## Getting Started
 
