@@ -11,7 +11,6 @@ _path = os.path.join(
     'vXboxInterface.dll'
 )
 
-print(_path, os.path.isfile(_path))
 _xinput = WinDLL(_path)
 
 DPAD_OFF = 0
