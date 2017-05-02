@@ -10,7 +10,6 @@ _path = os.path.abspath(os.path.join(
     'vXboxInterface-x64',
     'vXboxInterface.dll'
 ))
-print(_path)
 _xinput = WinDLL(_path)
 
 
@@ -26,5 +25,3 @@ if not _xinput.isVBusExists():
 Please refer to https://github.com/shauleiz/vXboxInterface/releases
 or run "ScpVBus-x64/install.bat" in cmd.exe as administrator'''
     )
-else:
-    print('Found VBus Controller')
