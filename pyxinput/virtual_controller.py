@@ -5,11 +5,11 @@ from ctypes import *
 import time
 import os
 
-_path = os.path.join(
+_path = os.path.abspath(os.path.join(
     os.path.dirname(__file__),
     'vXboxInterface-x64',
     'vXboxInterface.dll'
-)
+))
 
 _xinput = WinDLL(_path)
 
