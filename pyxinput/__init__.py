@@ -1,8 +1,8 @@
 from ctypes import *
 import os
 
-root = os.path.dirname(__file__)
-_xinput = WinDLL(os.path.join(root, 'vXboxInterface-x64\\vXboxInterface.dll'))
+_root = os.path.dirname(__file__)
+_xinput = WinDLL(os.path.join(_root, 'vXboxInterface-x64\\vXboxInterface.dll'))
 
 
 class MissingDependancyError(Exception):
@@ -10,7 +10,7 @@ class MissingDependancyError(Exception):
         self.message = message
 
 
-if not xinput.isVBusExists():
+if not _xinput.isVBusExists():
     raise MissingDependancyError(
         '''Unable to find VBus Controller.
 
