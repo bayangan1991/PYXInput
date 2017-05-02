@@ -74,9 +74,18 @@ Done, disconnecting controller.
 Available: [1, 2, 3, 4]
 ```
 
-### And coding style tests
+```
+python read_state.py
+```
 
-Each use case of this library can be initialsed as an object
+```
+{'wButtons': 45056, 'left_trigger': 0, 'right_trigger': 0, 'thumb_lx': 1612, 'thumb_ly': -60, 'thumb_rx': 28157, 'thumb_ry': -18008}
+['A', 'B', 'Y']
+```
+
+### Coding Styles
+
+Each use case of this library can be initialised as an object
 
 ```python
 from PYXInput.virtual_controller import vController
@@ -84,7 +93,7 @@ from PYXInput.read_state import rController
 
 MyVirtual = vController()
 
-MyRead = rController(1)
+MyRead = rController(1) # For Controller 1
 
 MyVirtual.set_value('BtnA', 1)
 MyVirtual.set_value('AxisLx', -0.5)
@@ -92,12 +101,6 @@ MyVirtual.set_value('AxisLx', -0.5)
 print(MyRead.gamepad())
 print(MyRead.buttons())
 ```
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 ## Authors
 
