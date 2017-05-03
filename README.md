@@ -41,9 +41,9 @@ pip uninstall PYXInput
 
 ## Running the tests
 
-This library contains two main modules. [virtual_controller](/virtual_controller.py) is for creating a virtual controller.
+This library contains two main modules. [virtual_controller](/PYXInput/virtual_controller.py) is for creating a virtual controller.
 
-[read_state](/read_state.py) is for reading the current state of any xbox controller (virtual or real)
+[read_state](/PYXInput//read_state.py) is for reading the current state of any xbox controller (virtual or real)
 
 ### Testing
 
@@ -78,6 +78,7 @@ Available: [1, 2, 3, 4]
 python read_state.py
 ```
 
+Successful Output:
 ```
 {'wButtons': 45056, 'left_trigger': 0, 'right_trigger': 0, 'thumb_lx': 1612, 'thumb_ly': -60, 'thumb_rx': 28157, 'thumb_ry': -18008}
 ['A', 'B', 'Y']
