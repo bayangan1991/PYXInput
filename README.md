@@ -117,3 +117,4 @@ This project is licensed under the MIT License
 * Everyone at [vJoy](http://vjoystick.sourceforge.net/site/) for the vXboxInterface DLL
 * [Sentdex](https://github.com/Sentdex) for the inspiration with his [pygta5](https://github.com/Sentdex/pygta5) project
 * [nefarius](https://github.com/nefarius) for [ScpVBus](https://github.com/nefarius/ScpVBus)
+* [Flandan](https://github.com/flandan) for helping debug the `setup.py`
