@@ -47,10 +47,12 @@ This library contains two main modules. [virtual_controller](/PYXInput/virtual_c
 
 ### Testing
 
-Each of these modules has a `main()` defintion which will test functionality.
+I have included a functions to test functionality for both use cases. They can be run with the example scripts below.
 
-```
-python virtual_controller.py
+```python
+import pyxinput
+
+pyxinput.test_virtual()
 ```
 
 Successful Output:
@@ -74,27 +76,34 @@ Done, disconnecting controller.
 Available: [1, 2, 3, 4]
 ```
 
-```
-python read_state.py
+```python
+import pyxinput
+
+pyxinput.test_read()
 ```
 
 Successful Output:
 ```
-{'wButtons': 45056, 'left_trigger': 0, 'right_trigger': 0, 'thumb_lx': 1612, 'thumb_ly': -60, 'thumb_rx': 28157, 'thumb_ry': -18008}
-['A', 'B', 'Y']
+Testing controller in position 1:
+Running 3 x 3 seconds tests
+State:  {'wButtons': 0, 'left_trigger': 0, 'right_trigger': 0, 'thumb_lx': 0, 'thumb_ly': 0, 'thumb_rx': 0, 'thumb_ry': 0}
+Buttons:  []
+State:  {'wButtons': 0, 'left_trigger': 0, 'right_trigger': 0, 'thumb_lx': 0, 'thumb_ly': 0, 'thumb_rx': 0, 'thumb_ry': 0}
+Buttons:  []
+State:  {'wButtons': 0, 'left_trigger': 0, 'right_trigger': 0, 'thumb_lx': 0, 'thumb_ly': 0, 'thumb_rx': 0, 'thumb_ry': 0}
+Buttons:  []
 ```
 
 ### Coding Styles
 
-Each use case of this library can be initialised as an object
+Each use case of this library can be initialised as an object. Below is an example of how to use this package.
 
 ```python
-from PYXInput.virtual_controller import vController
-from PYXInput.read_state import rController
+import pyxinput
 
-MyVirtual = vController()
+MyVirtual = pyxinput.vController()
 
-MyRead = rController(1) # For Controller 1
+MyRead = pyxinput.rController(1) # For Controller 1
 
 MyVirtual.set_value('BtnA', 1)
 MyVirtual.set_value('AxisLx', -0.5)
