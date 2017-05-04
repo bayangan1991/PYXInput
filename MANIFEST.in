@@ -1,0 +1,5 @@
+include README.md
+include pyxinput/ScpVBus-x64/*
+include pyxinput/ScpVBus-x86/*
+include pyxinput/vXboxInterface-x64/*
+include pyxinput/vXboxInterface-x86/*
