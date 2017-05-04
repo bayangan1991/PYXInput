@@ -30,7 +30,7 @@ Drivers installed successfully.
 To install run the following command:
 
 ```
-pip install git+https://github.com/bayangan1991/PYXInput.git
+pip install PYXInput
 ```
 
 To uninstall:
