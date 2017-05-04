@@ -27,3 +27,6 @@ if not _xinput.isVBusExists():
 Please refer to https://github.com/shauleiz/vXboxInterface/releases
 or run "ScpVBus-x64/install.bat" in cmd.exe as administrator'''
     )
+
+from .virtual_controller import vController
+from .read_state import rController
