@@ -14,8 +14,8 @@ This project requires the installation of `ScpVBus` if you intend on using the V
 
 
 1. Open `cmd.exe` as administator
-2. `cd` in the [ScpVBus-x64](/ScpVBus-x64) directory
-3. Execute [install.bat](/ScpVBus-x64/install.bat)
+2. `cd` in the correct [ScpVBus-x64](/pyxinput/ScpVBus-x64) directory for your arcitechture
+3. Execute [install.bat](/pyxinput/ScpVBus-x64/install.bat)
 
 If successful you will receive the following message
 
@@ -41,9 +41,9 @@ pip uninstall PYXInput
 
 ## Running the tests
 
-This library contains two main modules. [virtual_controller](/PYXInput/virtual_controller.py) is for creating a virtual controller.
+This library contains two main modules. [virtual_controller](/pyxinput/virtual_controller.py) is for creating a virtual controller.
 
-[read_state](/PYXInput//read_state.py) is for reading the current state of any xbox controller (virtual or real)
+[read_state](/pyxinput//read_state.py) is for reading the current state of any xbox controller (virtual or real)
 
 ### Testing
 
@@ -76,6 +76,7 @@ Done, disconnecting controller.
 Available: [1, 2, 3, 4]
 ```
 
+Testing xInput reading:
 ```python
 import pyxinput
 
