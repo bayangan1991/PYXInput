@@ -30,3 +30,5 @@ or run "ScpVBus-x64/install.bat" in cmd.exe as administrator'''
 
 from .virtual_controller import vController
 from .read_state import rController
+from .virtual_controller import main as test_virtual
+from .read_state import main as test_read
