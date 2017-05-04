@@ -3,11 +3,13 @@ import os
 import platform
 
 if platform.architecture()[0] == '32bit':
-    print('Windows 32-Bit unsupported')
+    arc = '86'
+else:
+    arc = '64'
 
 _path = os.path.abspath(os.path.join(
     os.path.dirname(__file__),
-    'vXboxInterface-x64',
+    'vXboxInterface-x{}'.format(arc),
     'vXboxInterface.dll'
 ))
 _xinput = WinDLL(_path)

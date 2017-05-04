@@ -4,20 +4,19 @@ Python Implepentation of vXbox from http://vjoystick.sourceforge.net/site/index.
 from ctypes import *
 import time
 import os
+import platform
+
+if platform.architecture()[0] == '32bit':
+    arc = '86'
+else:
+    arc = '64'
 
 _path = os.path.abspath(os.path.join(
     os.path.dirname(__file__),
-    'vXboxInterface-x64',
+    'vXboxInterface-x{}'.format(arc),
     'vXboxInterface.dll'
 ))
-
 _xinput = WinDLL(_path)
-
-DPAD_OFF = 0
-DPAD_UP = 1
-DPAD_DOWN = 2
-DPAD_LEFT = 4
-DPAD_RIGHT = 8
 
 
 class MaxInputsReachedError(Exception):
@@ -35,6 +34,11 @@ class vController(object):
     """Virtual Controller Object"""
     available_ids = [1, 2, 3, 4]
     unavailable_ids = []
+    DPAD_OFF = 0
+    DPAD_UP = 1
+    DPAD_DOWN = 2
+    DPAD_LEFT = 4
+    DPAD_RIGHT = 8
 
     def __init__(self):
         if len(vController.available_ids):
