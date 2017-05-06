@@ -55,7 +55,7 @@ setup(
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
 
     # installs the DLL with the package
-    package_data={'PYXInput': [
+    package_data={'pyxinput': [
         'vXboxInterface-x64/vXboxInterface.dll',
         'vXboxInterface-x64/msvcp120.dll',
         'vXboxInterface-x64/msvcr120.dll',
