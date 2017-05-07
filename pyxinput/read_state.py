@@ -15,21 +15,24 @@ class _xinput_gamepad(Structure):
                 ("thumb_ly", c_short), ("thumb_rx", c_short),
                 ("thumb_ry", c_short)]
 
-    def __repr__(self):
-        fields = [
-            'wButtons',
-            'left_trigger',
-            'right_trigger',
-            'thumb_lx',
-            'thumb_ly',
-            'thumb_rx',
-            'thumb_ry'
-        ]
+    fields = [
+        'wButtons',
+        'left_trigger',
+        'right_trigger',
+        'thumb_lx',
+        'thumb_ly',
+        'thumb_rx',
+        'thumb_ry'
+    ]
 
-        return {field: self.__getattribute__(field) for field in fields}
+    def __dict__(self):
+        return {field: self.__getattribute__(field) for field in self.fields}
 
     def __str__(self):
-        return str(self.__repr__())
+        return str(self.__dict__())
+
+    def __getitem__(self, string):
+        return self.__dict__()[string]
 
 
 class _xinput_state(Structure):
@@ -37,16 +40,19 @@ class _xinput_state(Structure):
     _fields_ = [("dwPacketNumber", c_uint),
                 ("XINPUT_GAMEPAD", _xinput_gamepad)]
 
-    def __repr__(self):
-        fields = [
-            'dwPacketNumber',
-            'XINPUT_GAMEPAD'
-        ]
+    fields = [
+        'dwPacketNumber',
+        'XINPUT_GAMEPAD'
+    ]
 
-        return {field: self.__getattribute__(field) for field in fields}
+    def __dict__(self):
+        return {field: self.__getattribute__(field) for field in self.fields}
 
     def __str__(self):
-        return str(self.__repr__())
+        return str(self.__dict__())
+
+    def __getitem__(self, string):
+        return self.__dict__()[string]
 
 
 class rController(object):

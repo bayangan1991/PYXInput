@@ -90,3 +90,5 @@ ENV/
 
 # VS Code project
 .vscode/
+
+test.py
