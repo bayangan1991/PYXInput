@@ -15,18 +15,26 @@ class _xinput_gamepad(Structure):
                 ("thumb_ly", c_short), ("thumb_rx", c_short),
                 ("thumb_ry", c_short)]
 
-    fields = [
-        'wButtons',
-        'left_trigger',
-        'right_trigger',
-        'thumb_lx',
-        'thumb_ly',
-        'thumb_rx',
-        'thumb_ry'
-    ]
+    fields = [f[0] for f in _fields_]
+
+    _ranges = {'thumb': (-32768, 32767), 'trigger': (0, 255)}
+
+    def __init__(self, percent):
+        self.percent = percent
 
     def __dict__(self):
-        return {field: self.__getattribute__(field) for field in self.fields}
+        if self.percent:
+            raise NotImplementedError
+            temp = {}
+            for field in self.fields:
+                for find in _ranges:
+                    if find in field:
+                        t_min, t_max = 0
+                field: self.__getattribute__(field)}
+
+            return temp
+        else:
+            return {field: self.__getattribute__(field) for field in self.fields}
 
     def __str__(self):
         return str(self.__dict__())
@@ -40,10 +48,7 @@ class _xinput_state(Structure):
     _fields_ = [("dwPacketNumber", c_uint),
                 ("XINPUT_GAMEPAD", _xinput_gamepad)]
 
-    fields = [
-        'dwPacketNumber',
-        'XINPUT_GAMEPAD'
-    ]
+    fields= fields = [f[0] for f in _fields_]
 
     def __dict__(self):
         return {field: self.__getattribute__(field) for field in self.fields}
@@ -59,7 +64,7 @@ class rController(object):
     """XInput Controller State reading object"""
 
     # All possible button values
-    _buttons = {
+    _buttons= {
         'DPAD_UP': 0x0001,
         'DPAD_DOWN': 0x0002,
         'DPAD_LEFT': 0x0004,
@@ -76,24 +81,30 @@ class rController(object):
         'Y': 0x8000
     }
 
-    def __init__(self, ControllerID):
-        """Initialise Controller object"""
+    def __init__(self, ControllerID, percent=False):
+        """Initialise Controller object
+        ControllerID    Int     Position number of desired controller (order of connection)
+        percent         Bool    Whether to return absolute or percentage values on analog output
+        """
+        self.percent = percent
         self.ControllerID = ControllerID
         self.dwPacketNumber = c_uint()
 
+    @property
     def gamepad(self):
         """Returns the current gamepad state. Buttons pressed is shown as a raw integer value.
         Use rController.buttons() for a list of buttons pressed.
         """
-        state = _xinput_state()
+        state = _xinput_state(self.percent)
         _xinput.XInputGetState(self.ControllerID - 1, pointer(state))
         self.dwPacketNumber = state.dwPacketNumber
         return state.XINPUT_GAMEPAD
 
+    @property
     def buttons(self):
         """Returns a list of buttons currently pressed"""
         return [name for name, value in rController._buttons.items()
-                if self.gamepad().wButtons & value == value]
+                if self.gamepad.wButtons & value == value]
 
 
 def main():
@@ -104,12 +115,14 @@ def main():
     print('Running 3 x 3 seconds tests')
 
     # Initialise Controller
-    con = rController(1)
+    con= rController(1)
 
+    while 'A' not in con.buttons:
+        pass
     # Loop printing controller state and buttons held
     for i in range(3):
-        print('State: ', con.gamepad())
-        print('Buttons: ', con.buttons())
+        print('State: ', con.gamepad)
+        print('Buttons: ', con.buttons)
         time.sleep(3)
 
     print('Done!')

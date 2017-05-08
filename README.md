@@ -109,8 +109,8 @@ MyRead = pyxinput.rController(1) # For Controller 1
 MyVirtual.set_value('BtnA', 1)
 MyVirtual.set_value('AxisLx', -0.5)
 
-print(MyRead.gamepad())
-print(MyRead.buttons())
+print(MyRead.gamepad)
+print(MyRead.buttons)
 ```
 
 ## Authors
