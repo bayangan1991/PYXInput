@@ -3,11 +3,10 @@
 Python Implepentation of vXbox from:
 http://vjoystick.sourceforge.net/site/index.php/vxbox"""
 from ctypes import *
-import time
 import os
 import platform
 
-if platform.architecture()[0] == '32bit':
+if '32' in platform.architecture()[0]:
     arc = '86'
 else:
     arc = '64'
@@ -32,14 +31,16 @@ class MaxInputsReachedError(Exception):
 
 
 class vController(object):
-    """Virtual Controller Object"""
+    """Virtual Controller Object
+    percent, Bool, Determines if absolute or percentage values are passed"""
     DPAD_OFF = 0
     DPAD_UP = 1
     DPAD_DOWN = 2
     DPAD_LEFT = 4
     DPAD_RIGHT = 8
 
-    def __init__(self):
+    def __init__(self, percent=True):
+        self.percent = percent
         self.id = 0
         self.PlugIn()
 
@@ -47,22 +48,24 @@ class vController(object):
         """Unplug self if object is cleaned up"""
         self.UnPlug()
 
-    @property
-    def _available_ids(self):
+    @classmethod
+    def available_ids(self):
         ids = [x for x in range(
             1, 5) if _xinput.isControllerExists(c_int(x)) == 0]
-        if len(ids) == 0:
-            raise MaxInputsReachedError('Max Inputs Reached')
 
         return ids
 
     def PlugIn(self):
         """Take next available controller id and plug in to Virtual USB Bus"""
-        ids = self._available_ids
+        ids = self.available_ids()
+        if len(ids) == 0:
+            raise MaxInputsReachedError('Max Inputs Reached')
+
         self.id = ids[0]
 
         _xinput.PlugIn(self.id)
-        time.sleep(0.5)
+        while self.id in self.available_ids():
+            pass
 
     def UnPlug(self, force=False):
         """Unplug controller from Virtual USB Bus and free up ID"""
@@ -70,10 +73,17 @@ class vController(object):
             _xinput.UnPlugForce(c_uint(self.id))
         else:
             _xinput.UnPlug(c_uint(self.id))
+        while self.id not in self.available_ids():
+            if self.id == 0:
+                break
 
     def set_value(self, control, value=None):
         """Set a value on the controller
-    All controls will accept a value between -1.0 and 1.0
+    If percent is True all controls will accept a value between -1.0 and 1.0
+
+    If not then:
+        Triggers are 0 to 255
+        Axis are -32768 to 32767
 
     Control List:
         AxisLx          , Left Stick X-Axis
@@ -114,6 +124,7 @@ class vController(object):
 
 
 def main():
+    import time
     cons = []
 
     while True:
@@ -125,13 +136,11 @@ def main():
         else:
             print('This ID:', cons[-1].id)
 
-        # input('Press enter for next controller...')
-        time.sleep(2)
+        time.sleep(1)
 
     print('Done, disconnecting controllers.')
     del cons
-    print('Available:', [_xinput.isControllerExists(
-        c_int(x)) for x in range(1, 5)])
+    print('Available:', vController.available_ids())
     time.sleep(2)
 
 
