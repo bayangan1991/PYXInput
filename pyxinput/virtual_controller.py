@@ -50,8 +50,10 @@ class vController(object):
 
     @classmethod
     def available_ids(self):
-        ids = [x for x in range(
-            1, 5) if _xinput.isControllerExists(c_int(x)) == 0]
+        ids = [
+            x for x in range(1, 5)
+            if _xinput.isControllerExists(c_int(x)) == 0
+        ]
 
         return ids
 
@@ -146,7 +148,7 @@ def main():
             print('Available:', vController.available_ids())
             print('This ID:', cons[-1].id)
 
-        time.sleep(1)
+        # time.sleep(1)
 
     print('Done, disconnecting controllers.')
     del cons
