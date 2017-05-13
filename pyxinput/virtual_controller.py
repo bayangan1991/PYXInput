@@ -33,8 +33,6 @@ class MaxInputsReachedError(Exception):
 
 class vController(object):
     """Virtual Controller Object"""
-    available_ids = [1, 2, 3, 4]
-    unavailable_ids = []
     DPAD_OFF = 0
     DPAD_UP = 1
     DPAD_DOWN = 2
@@ -42,23 +40,28 @@ class vController(object):
     DPAD_RIGHT = 8
 
     def __init__(self):
+        self.id = 0
         self.PlugIn()
 
     def __del__(self):
         """Unplug self if object is cleaned up"""
         self.UnPlug()
 
-    def PlugIn(self):
-        """Obtain next available controller id and plug in to Virtual USB Bus"""
-        slots = c_uint()
-        _xinput.GetNumEmptyBusSlots(pointer(slots))
-        nextID = 5 - slots.value
-        self.id = nextID
-
-        if nextID == 5:
+    @property
+    def _available_ids(self):
+        ids = [x for x in range(
+            1, 5) if _xinput.isControllerExists(c_int(x)) == 0]
+        if len(ids) == 0:
             raise MaxInputsReachedError('Max Inputs Reached')
 
-        _xinput.PlugIn(nextID)
+        return ids
+
+    def PlugIn(self):
+        """Take next available controller id and plug in to Virtual USB Bus"""
+        ids = self._available_ids
+        self.id = ids[0]
+
+        _xinput.PlugIn(self.id)
         time.sleep(0.5)
 
     def UnPlug(self, force=False):
@@ -70,28 +73,28 @@ class vController(object):
 
     def set_value(self, control, value=None):
         """Set a value on the controller
-        All controls will accept a value between -1.0 and 1.0
+    All controls will accept a value between -1.0 and 1.0
 
-        Control List:
-            AxisLx          , Left Stick X-Axis
-            AxisLy          , Left Stick Y-Axis
-            AxisRx          , Right Stick X-Axis
-            AxisRy          , Right Stick Y-Axis
-            BtnBack         , Menu/Back Button
-            BtnStart        , Start Button
-            BtnA            , A Button
-            BtnB            , B Button
-            BtnX            , X Button
-            BtnY            , Y Button
-            BtnThumbL       , Left Thumbstick Click
-            BtnThumbR       , Right Thumbstick Click
-            BtnShoulderL    , Left Shoulder Button
-            BtnShoulderR    , Right Shoulder Button
-            Dpad            , Set Dpad Value (0 = Off, Use DPAD_### Contstants)
-            TriggerL        , Left Trigger
-            TriggerR        , Right Trigger
+    Control List:
+        AxisLx          , Left Stick X-Axis
+        AxisLy          , Left Stick Y-Axis
+        AxisRx          , Right Stick X-Axis
+        AxisRy          , Right Stick Y-Axis
+        BtnBack         , Menu/Back Button
+        BtnStart        , Start Button
+        BtnA            , A Button
+        BtnB            , B Button
+        BtnX            , X Button
+        BtnY            , Y Button
+        BtnThumbL       , Left Thumbstick Click
+        BtnThumbR       , Right Thumbstick Click
+        BtnShoulderL    , Left Shoulder Button
+        BtnShoulderR    , Right Shoulder Button
+        Dpad            , Set Dpad Value (0 = Off, Use DPAD_### Contstants)
+        TriggerL        , Left Trigger
+        TriggerR        , Right Trigger
 
-        """
+    """
         func = getattr(_xinput, 'Set' + control)
 
         if 'Axis' in control:
@@ -114,8 +117,6 @@ def main():
     cons = []
 
     while True:
-        print('Connected:', [_xinput.isControllerExists(c_int(x)) == 1
-                             for x in range(1, 5)])
         print('Connecting Controller:')
         try:
             cons.append(vController())
@@ -127,7 +128,7 @@ def main():
         # input('Press enter for next controller...')
         time.sleep(2)
 
-    print('Done, disconnecting controller.')
+    print('Done, disconnecting controllers.')
     del cons
     print('Available:', [_xinput.isControllerExists(
         c_int(x)) for x in range(1, 5)])
