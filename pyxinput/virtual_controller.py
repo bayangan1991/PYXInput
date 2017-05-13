@@ -109,13 +109,21 @@ class vController(object):
 
         if 'Axis' in control:
             target_type = c_short
-            target_value = int(32767 * value)
+
+            if self.percent:
+                target_value = int(32767 * value)
+            else:
+                target_value = value
         elif 'Btn' in control:
             target_type = c_bool
             target_value = bool(value)
         elif 'Trigger' in control:
             target_type = c_byte
-            target_value = int(255 * value)
+
+            if self.percent:
+                target_value = int(255 * value)
+            else:
+                target_type = value
         elif 'Dpad' in control:
             target_type = c_int
             target_value = int(value)
@@ -127,6 +135,7 @@ def main():
     import time
     cons = []
 
+    print('Testings multiple connections')
     while True:
         print('Connecting Controller:')
         try:
@@ -134,6 +143,7 @@ def main():
         except MaxInputsReachedError:
             break
         else:
+            print('Available:', vController.available_ids())
             print('This ID:', cons[-1].id)
 
         time.sleep(1)
@@ -142,6 +152,28 @@ def main():
     del cons
     print('Available:', vController.available_ids())
     time.sleep(2)
+
+    print('Testing Value setting')
+    print('Connecting Controller:')
+    try:
+        con = vController()
+    except MaxInputsReachedError:
+        print('Unable to connect controller for testing.')
+    else:
+        print('This ID:', con.id)
+        print('Available:', vController.available_ids())
+        print('Setting TriggerR and AxisLx:')
+        for x in range(11):
+            val = x / 10
+            print(val)
+            con.set_value('TriggerR', val)
+            con.set_value('AxisLx', val)
+            time.sleep(0.5)
+
+        print('Done, disconnecting controller.')
+        del con
+        print('Available:', vController.available_ids())
+        time.sleep(2)
 
 
 if __name__ == '__main__':
