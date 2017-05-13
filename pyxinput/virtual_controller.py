@@ -1,6 +1,7 @@
 """Virtual Controller Object for Python
 
-Python Implepentation of vXbox from http://vjoystick.sourceforge.net/site/index.php/vxbox"""
+Python Implepentation of vXbox from:
+http://vjoystick.sourceforge.net/site/index.php/vxbox"""
 from ctypes import *
 import time
 import os
@@ -41,10 +42,7 @@ class vController(object):
     DPAD_RIGHT = 8
 
     def __init__(self):
-        if len(vController.available_ids):
-            self.PlugIn()
-        else:
-            raise MaxInputsReachedError('Max Inputs Reached')
+        self.PlugIn()
 
     def __del__(self):
         """Unplug self if object is cleaned up"""
@@ -52,9 +50,15 @@ class vController(object):
 
     def PlugIn(self):
         """Obtain next available controller id and plug in to Virtual USB Bus"""
-        self.id = vController.available_ids.pop(0)
-        vController.unavailable_ids.append(self.id)
-        _xinput.PlugIn(c_uint(self.id))
+        slots = c_uint()
+        _xinput.GetNumEmptyBusSlots(pointer(slots))
+        nextID = 5 - slots.value
+        self.id = nextID
+
+        if nextID == 5:
+            raise MaxInputsReachedError('Max Inputs Reached')
+
+        _xinput.PlugIn(nextID)
         time.sleep(0.5)
 
     def UnPlug(self, force=False):
@@ -63,10 +67,6 @@ class vController(object):
             _xinput.UnPlugForce(c_uint(self.id))
         else:
             _xinput.UnPlug(c_uint(self.id))
-
-        vController.unavailable_ids.remove(self.id)
-        vController.available_ids.append(self.id)
-        vController.available_ids = sorted(vController.available_ids)
 
     def set_value(self, control, value=None):
         """Set a value on the controller
@@ -111,21 +111,26 @@ class vController(object):
 
 
 def main():
-    print('Connecting Controller:')
-    con = vController()
-    print('This ID:', con.id)
-    print('Available:', vController.available_ids)
-    print('Setting TriggerR and AxisLx:')
-    for x in range(11):
-        val = x / 10
-        print(val)
-        con.set_value('TriggerR', val)
-        con.set_value('AxisLx', val)
-        time.sleep(0.5)
+    cons = []
+
+    while True:
+        print('Connected:', [_xinput.isControllerExists(c_int(x)) == 1
+                             for x in range(1, 5)])
+        print('Connecting Controller:')
+        try:
+            cons.append(vController())
+        except MaxInputsReachedError:
+            break
+        else:
+            print('This ID:', cons[-1].id)
+
+        # input('Press enter for next controller...')
+        time.sleep(2)
 
     print('Done, disconnecting controller.')
-    del con
-    print('Available:', vController.available_ids)
+    del cons
+    print('Available:', [_xinput.isControllerExists(
+        c_int(x)) for x in range(1, 5)])
     time.sleep(2)
 
 
