@@ -102,7 +102,7 @@ class vController(object):
         BtnThumbR       , Right Thumbstick Click
         BtnShoulderL    , Left Shoulder Button
         BtnShoulderR    , Right Shoulder Button
-        Dpad            , Set Dpad Value (0 = Off, Use DPAD_### Contstants)
+        Dpad            , Set Dpad Value (0 = Off, Use DPAD_### Constants)
         TriggerL        , Left Trigger
         TriggerR        , Right Trigger
 
@@ -125,7 +125,7 @@ class vController(object):
             if self.percent:
                 target_value = int(255 * value)
             else:
-                target_type = value
+                target_value = value
         elif 'Dpad' in control:
             target_type = c_int
             target_value = int(value)
