@@ -25,6 +25,16 @@ Updating drivers for Root\ScpVBus from {Location}\PYXInput\ScpVBus-x64\ScpVBus.i
 Drivers installed successfully.
 ```
 
+#### Alternative for Win10-64
+
+Thanks to @getbrainerror for the pull request.
+
+A script has been added that will self-sign the drivers so they can be installed on your machine.
+
+The Powershell script is found in pyxinput/ScpVBus-Selfsign
+
+I have not tested this yet so run at your own risk.
+
 ### Installing
 
 To install run the following command:
@@ -129,3 +139,4 @@ This project is licensed under the MIT License
 * [Sentdex](https://github.com/Sentdex) for the inspiration with his [pygta5](https://github.com/Sentdex/pygta5) project
 * [nefarius](https://github.com/nefarius) for [ScpVBus](https://github.com/nefarius/ScpVBus)
 * [Flandan](https://github.com/flandan) for helping debug the `setup.py`
+* [getbrainerror](https://github.com/getbrainerror) for the self-sign version of ScpVBus
